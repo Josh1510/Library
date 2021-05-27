@@ -8,6 +8,7 @@ const addBookBtn = document.querySelector('#add-book-btn');
 const closeBookForm = document.querySelector('#close-book-form');
 const saveBookBtn = document.querySelector('#save-book-btn');
 
+//loads any existing books on page load
 window.addEventListener('load', function () {
     showLibrary();
 });
@@ -85,5 +86,12 @@ function saveBookToLibrary() {
     let newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
 
-    title.showLibrary();
+    form.querySelector('input[name="title"]').value = '';
+    form.querySelector('input[name="author"]').value = '';
+    form.querySelector('input[name="pages"]').value = '';
+    form.querySelector('input[name="read"]').checked = false;
+
+    addBookForm.style.display = 'none';
+
+    showLibrary();
 }
