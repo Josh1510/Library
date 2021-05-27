@@ -1,0 +1,8 @@
+#library-container {
+    border: var(--border);
+}
+
+.bookContainer {
+    border: var(--border);
+    padding: 15px;
+}
