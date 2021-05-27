@@ -1,9 +1,16 @@
 let myLibrary = [];
+let bookCount = 0;
+
+const libraryContainer = document.getElementById('library-container');
 
 const addBookForm = document.querySelector('#addBookForm');
 const addBookBtn = document.querySelector('#add-book-btn');
 const closeBookForm = document.querySelector('#close-book-form');
 const saveBookBtn = document.querySelector('#save-book-btn');
+
+window.addEventListener('load', function () {
+    showLibrary();
+});
 
 addBookBtn.addEventListener(
     'click',
@@ -24,7 +31,41 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-//testing
+function showLibrary() {
+    for (i = bookCount; i < myLibrary.length; i++) {
+        console.log(myLibrary[i].info());
+        let bookContainerDiv = document.createElement('div');
+        bookContainerDiv.className = 'bookContainer';
+        libraryContainer.appendChild(bookContainerDiv);
+        let titleDiv = document.createElement('div');
+        let title = document.createTextNode(myLibrary[i].title);
+        titleDiv.appendChild(title);
+        titleDiv.className = 'titleDiv';
+        bookContainerDiv.appendChild(titleDiv);
+
+        let authorDiv = document.createElement('div');
+        let author = document.createTextNode(myLibrary[i].author);
+        authorDiv.appendChild(author);
+        authorDiv.className = 'authorDiv';
+        bookContainerDiv.appendChild(authorDiv);
+
+        let pagesDiv = document.createElement('div');
+        let pages = document.createTextNode(myLibrary[i].pages);
+        pagesDiv.appendChild(pages);
+        pagesDiv.className = 'pagesDiv';
+        bookContainerDiv.appendChild(pagesDiv);
+
+        let readDiv = document.createElement('div');
+        let read = document.createTextNode(myLibrary[i].read);
+        readDiv.appendChild(read);
+        readDiv.className = 'readDiv';
+        bookContainerDiv.appendChild(readDiv);
+
+        bookCount++;
+    }
+}
+
+//returns books info
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 };
@@ -43,4 +84,6 @@ function saveBookToLibrary() {
     let read = form.querySelector('input[name="read"]').checked;
     let newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
+
+    title.showLibrary();
 }
