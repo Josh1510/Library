@@ -9,7 +9,46 @@
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <h1>hello</h1>
+        <button id="add-book-btn">Add a Book</button>
+
+        <!-- Form to add a book -->
+        <div class="form-popup" id="addBookForm">
+            <form class="form-container" name="addBookForm">
+                <h1>Add your book!</h1>
+
+                <label for="title" id="title-input"><b>Title</b></label>
+                <input
+                    type="text"
+                    placeholder="Enter Title"
+                    name="title"
+                    required
+                />
+                <label for="author" id="author-input"><b>Author</b></label>
+                <input
+                    type="text"
+                    placeholder="Enter Author"
+                    name="author"
+                    required
+                />
+                <label for="pages" id="pages-input"><b>Pages</b></label>
+                <input
+                    type="text"
+                    placeholder="Enter Pages"
+                    name="pages"
+                    required
+                />
+
+                <label for="read" id="read-input"><b>Book read?</b></label>
+                <input type="checkbox" name="read" />
+
+                <button type="button" class="btn" id="save-book-btn">
+                    Save Book
+                </button>
+                <button type="button" class="btn" id="close-book-form">
+                    Close
+                </button>
+            </form>
+        </div>
 
         <script src="main.js" async></script>
     </body>
