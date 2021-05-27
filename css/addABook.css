@@ -32,6 +32,7 @@
 
 /* Full-width input fields */
 .form-container input[type='text'],
+input[type='number'],
 input[type='checkbox'] {
     width: 100%;
     padding: 15px;
@@ -41,7 +42,8 @@ input[type='checkbox'] {
 }
 
 /* When the inputs get focus, do something */
-.form-container input[type='text']:focus {
+.form-container input[type='text']:focus,
+input[type='number']:focus {
     background-color: #ddd;
     outline: none;
 }
@@ -67,4 +69,13 @@ input[type='checkbox'] {
 .form-container .btn:hover,
 #add-book-btn:hover {
     opacity: 1;
+}
+
+/* Remove arrows from number input box */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
