@@ -101,14 +101,17 @@ function saveBookToLibrary(title, author, pages, read) {
 }
 
 function checkValidInput() {
-    let title = form.querySelector('input[name="title"]').value;
-    let author = form.querySelector('input[name="author"]').value;
-    let pages = form.querySelector('input[name="pages"]').value;
+    let title = form.querySelector('input[name="title"]');
+    let author = form.querySelector('input[name="author"]');
+    let pages = form.querySelector('input[name="pages"]');
     let read = form.querySelector('input[name="read"]').checked;
 
-    if (title == '') {
+    if (title.value == '') {
+        title.placeholder = 'Title is required!';
         console.log('missing title');
         return;
+    } else {
+        console.log('booklibrary save to');
+        saveBookToLibrary(title.value, author.value, pages.value, read);
     }
-    saveBookToLibrary(title, author, pages, read);
 }
