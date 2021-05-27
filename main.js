@@ -8,6 +8,8 @@ const addBookBtn = document.querySelector('#add-book-btn');
 const closeBookForm = document.querySelector('#close-book-form');
 const saveBookBtn = document.querySelector('#save-book-btn');
 
+let form = document.forms.addBookForm;
+
 //loads any existing books on page load
 window.addEventListener('load', function () {
     showLibrary();
@@ -23,7 +25,7 @@ closeBookForm.addEventListener(
     () => (addBookForm.style.display = 'none')
 );
 
-saveBookBtn.addEventListener('click', saveBookToLibrary);
+saveBookBtn.addEventListener('click', checkValidInput);
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -77,12 +79,14 @@ const book2 = new Book('Fake Book', 'Real Dude', '343', false);
 
 myLibrary.push(book1, book2);
 
-function saveBookToLibrary() {
-    let form = document.forms.addBookForm;
-    let title = form.querySelector('input[name="title"]').value;
-    let author = form.querySelector('input[name="author"]').value;
-    let pages = form.querySelector('input[name="pages"]').value;
-    let read = form.querySelector('input[name="read"]').checked;
+function saveBookToLibrary(title, author, pages, read) {
+    // let title = form.querySelector('input[name="title"]').value;
+    // let author = form.querySelector('input[name="author"]').value;
+    // let pages = form.querySelector('input[name="pages"]').value;
+    // let read = form.querySelector('input[name="read"]').checked;
+
+    // checkValidInput(title, author, pages, read) ?
+
     let newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
 
@@ -94,4 +98,17 @@ function saveBookToLibrary() {
     addBookForm.style.display = 'none';
 
     showLibrary();
+}
+
+function checkValidInput() {
+    let title = form.querySelector('input[name="title"]').value;
+    let author = form.querySelector('input[name="author"]').value;
+    let pages = form.querySelector('input[name="pages"]').value;
+    let read = form.querySelector('input[name="read"]').checked;
+
+    if (title == '') {
+        console.log('missing title');
+        return;
+    }
+    saveBookToLibrary(title, author, pages, read);
 }
