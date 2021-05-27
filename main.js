@@ -1,10 +1,5 @@
 let myLibrary = [];
 
-const titleInput = document.querySelector('#title-input');
-const authorInput = document.querySelector('#author-input');
-const pagesInput = document.querySelector('#pages-input');
-const readInput = document.querySelector('#read-input');
-
 const addBookForm = document.querySelector('#addBookForm');
 const addBookBtn = document.querySelector('#add-book-btn');
 const closeBookForm = document.querySelector('#close-book-form');
