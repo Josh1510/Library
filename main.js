@@ -46,6 +46,18 @@ function showLibrary() {
         titleDiv.className = 'titleDiv';
         bookContainerDiv.appendChild(titleDiv);
 
+        let coverDiv = document.createElement('div');
+        let coverImg = document.createElement('img');
+
+        let coverImgFile = `/images/${myLibrary[i].title}.jpg`;
+        doesFileExist(coverImgFile)
+            ? (coverImg.src = coverImgFile)
+            : (coverImg.src = `/images/blank.jpg`);
+        // let cover = document.createTextNode(myLibrary[i].cover);
+        coverDiv.appendChild(coverImg);
+        coverDiv.className = 'coverDiv';
+        bookContainerDiv.appendChild(coverDiv);
+
         let authorDiv = document.createElement('div');
         let author = document.createTextNode(myLibrary[i].author);
         authorDiv.appendChild(author);
@@ -68,14 +80,23 @@ function showLibrary() {
     }
 }
 
+//check if file exists
+function doesFileExist(urlToFile) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('HEAD', urlToFile, false);
+    xhr.send();
+
+    return xhr.status !== 404;
+}
+
 //returns books info
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 };
 
 //temp data
-const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', true);
-const book2 = new Book('Fake Book', 'Real Dude', '343', false);
+const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false);
+const book2 = new Book('A Game of Thrones', 'George R. R. Martin', '912', true);
 
 myLibrary.push(book1, book2);
 
