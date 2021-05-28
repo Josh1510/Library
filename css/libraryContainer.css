@@ -1,8 +1,32 @@
 #library-container {
     border: var(--border);
+    display: flex;
 }
 
 .bookContainer {
     border: var(--border);
     padding: 15px;
+}
+
+.titleDiv,
+.coverDiv,
+.authorDiv,
+.pagesDiv,
+.readDiv {
+    max-width: var(--bookWidth);
+}
+
+.titleDiv,
+.authorDiv {
+    min-height: 36px;
+}
+
+.coverImg {
+    height: 196px;
+    width: 128px;
+}
+
+.removeImg {
+    height: 15px;
+    width: 15px;
 }
