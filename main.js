@@ -5,15 +5,12 @@ const libraryContainer = document.getElementById('library-container');
 
 libraryContainer.addEventListener('click', (event) => {
     const isRemove = event.target.className;
-    if (isRemove === 'removeDiv') {
-        console.log(event.target.className);
-        console.log('hmm');
+    if (isRemove === 'removeImg') {
+        let removeId = event.target.id;
+        removeBook(removeId);
         return;
     }
-
-    console.log(event.target.className);
 });
-// console.log(libraryContainer.nodeName.attr('removeDiv'));
 
 const addBookForm = document.querySelector('#addBookForm');
 const addBookBtn = document.querySelector('#add-book-btn');
@@ -91,27 +88,17 @@ function showLibrary() {
         readDiv.className = 'readDiv';
         bookContainerDiv.appendChild(readDiv);
 
-        let removeDiv = document.createElement('div');
         let removeImg = document.createElement('img');
         removeImg.src = '/images/Remove.png';
         removeImg.className = 'removeImg';
-        removeDiv.appendChild(removeImg);
-        removeDiv.className = 'removeDiv';
-        bookContainerDiv.appendChild(removeDiv);
+        removeImg.id = bookContainerDiv.id;
+        bookContainerDiv.appendChild(removeImg);
 
         bookCount++;
-        // let removeBookBtn = document.querySelector('.removeDiv');
-        // removeBookBtn.addEventListener('click', () => removeBook(titleId));
     }
-    // document.querySelectorAll('.removeDiv').forEach((e) =>
-    //     e.addEventListener('click', () =>
-    //         //console.log(e.parentNode.id)
-    //         removeBook(e.parentNode.id)
-    //     )
-    // );
 }
 
-//check if file exists
+// check if file exists
 function doesFileExist(urlToFile) {
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', urlToFile, false);
@@ -120,15 +107,18 @@ function doesFileExist(urlToFile) {
     return xhr.status !== 404;
 }
 
-//returns books info
+// returns books info
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 };
 
-//temp data
+// temp data
 const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false);
+const book3 = new Book('The Hobbit 2', 'J.R.R. Tolkien', '295', false);
+const book4 = new Book('The Hobbit 3', 'J.R.R. Tolkien', '295', false);
+const book5 = new Book('The Hobbit 4', 'J.R.R. Tolkien', '295', false);
 const book2 = new Book('A Game of Thrones', 'George R. R. Martin', '912', true);
-myLibrary.push(book1, book2);
+myLibrary.push(book1, book2, book3, book4, book5);
 
 function saveBookToLibrary(title, author, pages, read) {
     let newBook = new Book(title, author, pages, read);
@@ -144,18 +134,16 @@ function saveBookToLibrary(title, author, pages, read) {
     showLibrary();
 }
 
-//remove book when x button is clicked
+// remove book when x button is clicked, looks for book container with matching
+// id of book title then removes the book from the array
 function removeBook(bookTitle) {
-    document.querySelectorAll(`#${bookTitle}`).forEach((e) => e.remove());
+    document.querySelector(`#${bookTitle}`).remove();
     bookTitleFind = bookTitle.replace(/[^a-zA-Z0-9 ]/g, ' ');
-    //console.log(myLibrary.findIndex((x) => x.title === bookTitleFind));
-    //myLibrary.findIndex((x) => x.title === bookTitleFind)
-    // console.log(findIndex((x) => x.title === bookTitleFind));
-    // let index = findIndex((x) => x.title === bookTitleFind);
-    // myLibrary.splice(index);
-    console.log(
-        myLibrary.splice(myLibrary.findIndex((x) => x.title === bookTitleFind))
+    myLibrary.splice(
+        myLibrary.findIndex((x) => x.title === bookTitleFind),
+        1
     );
+
     bookCount--;
 }
 
