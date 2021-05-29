@@ -64,7 +64,7 @@ function showLibrary() {
         let coverImgFile = `/images/${myLibrary[i].title}.jpg`;
         doesFileExist(coverImgFile)
             ? (coverImg.src = coverImgFile)
-            : (coverImg.src = `/images/blank.jpg`);
+            : (coverImg.src = `/images/Blank.jpg`);
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
         coverDiv.className = 'coverDiv';
