@@ -1,4 +1,5 @@
 /.vscode
 api.js
-firebase.js
+firebase-jsfile.js
+firebase-debug.log
 notes.txt
