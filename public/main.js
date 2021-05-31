@@ -112,6 +112,7 @@ function showLibrary() {
         let removeImg = document.createElement('img');
         removeImg.src = 'images/Remove.png';
         removeImg.className = 'removeImg';
+        removeImg.alt = 'Remove Book';
         removeImg.id = bookContainerDiv.id;
         bookContainerDiv.appendChild(removeImg);
 
