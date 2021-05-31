@@ -1,3 +1,7 @@
+/* TODO 
+- Flex wrap
+- book style */
+
 #library-container {
     border: var(--border);
     display: flex;
