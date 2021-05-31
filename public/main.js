@@ -1,3 +1,8 @@
+// TODO
+// - input validation
+// - firebase database/login
+// - Books API for covers? google books or open library?
+
 let myLibrary = [];
 let bookCount = 0;
 
@@ -19,9 +24,25 @@ const saveBookBtn = document.querySelector('#save-book-btn');
 
 let form = document.forms.addBookForm;
 
-//loads any existing books on page load
+//read the local storage and import books if they exist
+function readLocalStorage() {
+    myLocalLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    for (var i = 0; i < myLocalLibrary.length; i++) {
+        saveBookToLibrary(
+            myLocalLibrary[i].title,
+            myLocalLibrary[i].author,
+            myLocalLibrary[i].pages,
+            myLocalLibrary[i].read
+        );
+    }
+}
+
+//loads any existing books in storage on page load
 window.addEventListener('load', function () {
     showLibrary();
+    localStorage.getItem('myLibrary')
+        ? readLocalStorage()
+        : console.log(`no local storage`);
 });
 
 addBookBtn.addEventListener(
@@ -89,7 +110,7 @@ function showLibrary() {
         bookContainerDiv.appendChild(readDiv);
 
         let removeImg = document.createElement('img');
-        removeImg.src = '/images/Remove.png';
+        removeImg.src = 'images/Remove.png';
         removeImg.className = 'removeImg';
         removeImg.id = bookContainerDiv.id;
         bookContainerDiv.appendChild(removeImg);
@@ -112,17 +133,19 @@ Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 };
 
-// temp data
+//temp data for testing
 const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false);
-const book3 = new Book('The Hobbit 2', 'J.R.R. Tolkien', '295', false);
-const book4 = new Book('The Hobbit 3', 'J.R.R. Tolkien', '295', false);
-const book5 = new Book('The Hobbit 4', 'J.R.R. Tolkien', '295', false);
 const book2 = new Book('A Game of Thrones', 'George R. R. Martin', '912', true);
-myLibrary.push(book1, book2, book3, book4, book5);
+localStorage.getItem('myLibrary')
+    ? console.log(`local storage exists, not loading temp data`)
+    : myLibrary.push(book1, book2);
 
+//Saves the book into the library onces added by user.
 function saveBookToLibrary(title, author, pages, read) {
     let newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
+
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 
     form.querySelector('input[name="title"]').value = '';
     form.querySelector('input[name="author"]').value = '';
@@ -131,6 +154,7 @@ function saveBookToLibrary(title, author, pages, read) {
 
     addBookForm.style.display = 'none';
 
+    //refreshes the library to display the new book
     showLibrary();
 }
 
@@ -143,10 +167,12 @@ function removeBook(bookTitle) {
         myLibrary.findIndex((x) => x.title === bookTitleFind),
         1
     );
-
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
     bookCount--;
 }
 
+// TODO
+// Check that the user has entered a valid input
 function checkValidInput() {
     let title = form.querySelector('input[name="title"]');
     let author = form.querySelector('input[name="author"]');
