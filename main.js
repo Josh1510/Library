@@ -24,7 +24,7 @@ const saveBookBtn = document.querySelector('#save-book-btn');
 let form = document.forms.addBookForm;
 
 //read the local storage and import books if they exist
-function readLocalStorage() {
+let readLocalStorage = () => {
     myLocalLibrary = JSON.parse(localStorage.getItem('myLibrary'));
     for (var i = 0; i < myLocalLibrary.length; i++) {
         saveBookToLibrary(
@@ -35,10 +35,10 @@ function readLocalStorage() {
             myLocalLibrary[i].bookId
         );
     }
-}
+};
 
 //loads any existing books in storage on page load
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
     showLibrary();
     localStorage.getItem('myLibrary')
         ? readLocalStorage()
@@ -55,10 +55,14 @@ closeBookForm.addEventListener(
     () => (addBookForm.style.display = 'none')
 );
 
-saveBookBtn.addEventListener('click', checkValidInput);
-
 class Book {
-    constructor(title, author, pages, read, bookId) {
+    constructor(
+        title = 'unknown',
+        author = 'unknown',
+        pages = 0,
+        read = false,
+        bookId
+    ) {
         this.title = title;
         this.author = author;
         this.pages = pages;
@@ -67,7 +71,7 @@ class Book {
     }
 }
 
-function showLibrary() {
+let showLibrary = () => {
     for (i = bookCount; i < myLibrary.length; i++) {
         console.log(myLibrary[i].info());
         let bookContainerDiv = document.createElement('div');
@@ -120,16 +124,16 @@ function showLibrary() {
 
         bookCount++;
     }
-}
+};
 
 // check if file exists
-function doesFileExist(urlToFile) {
+let doesFileExist = (urlToFile) => {
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', urlToFile, false);
     xhr.send();
 
     return xhr.status !== 404;
-}
+};
 
 // returns books info
 Book.prototype.info = function () {
@@ -150,7 +154,7 @@ localStorage.getItem('myLibrary')
     : myLibrary.push(book1, book2);
 
 //Saves the book into the library onces added by user.
-function saveBookToLibrary(title, author, pages, read, bookId) {
+let saveBookToLibrary = (title, author, pages, read, bookId) => {
     let newBook = new Book(title, author, pages, read, bookId);
     myLibrary.push(newBook);
 
@@ -165,11 +169,11 @@ function saveBookToLibrary(title, author, pages, read, bookId) {
 
     //refreshes the library to display the new book
     showLibrary();
-}
+};
 
 // remove book when x button is clicked, looks for book container with matching
 // id of book title then removes the book from the array
-function removeBook(bookId) {
+let removeBook = (bookId) => {
     document.getElementById(`${bookId}`).parentNode.remove();
     myLibrary.splice(
         myLibrary.findIndex((x) => x.bookId === bookId),
@@ -177,11 +181,11 @@ function removeBook(bookId) {
     );
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
     bookCount--;
-}
+};
 
 // TODO
 // Check that the user has entered a valid input
-function checkValidInput() {
+let checkValidInput = () => {
     let title = form.querySelector('input[name="title"]');
     let author = form.querySelector('input[name="author"]');
     let pages = form.querySelector('input[name="pages"]');
@@ -201,4 +205,5 @@ function checkValidInput() {
             Date.now()
         );
     }
-}
+};
+saveBookBtn.addEventListener('click', checkValidInput);
