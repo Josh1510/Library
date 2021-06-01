@@ -11,9 +11,8 @@ const libraryContainer = document.getElementById('library-container');
 libraryContainer.addEventListener('click', (event) => {
     const isRemove = event.target.className;
     if (isRemove === 'removeImg') {
-        let removeId = event.target.id;
-        removeBook(removeId);
-        return;
+        let bookId = event.target.id;
+        removeBook(bookId);
     }
 });
 
@@ -32,7 +31,8 @@ function readLocalStorage() {
             myLocalLibrary[i].title,
             myLocalLibrary[i].author,
             myLocalLibrary[i].pages,
-            myLocalLibrary[i].read
+            myLocalLibrary[i].read,
+            myLocalLibrary[i].bookId
         );
     }
 }
@@ -58,11 +58,12 @@ closeBookForm.addEventListener(
 saveBookBtn.addEventListener('click', checkValidInput);
 
 class Book {
-    constructor(title, author, pages, read) {
+    constructor(title, author, pages, read, bookId) {
         this.title = title;
         this.author = author;
         this.pages = pages;
         this.read = read;
+        this.bookId = bookId;
     }
 }
 
@@ -71,8 +72,7 @@ function showLibrary() {
         console.log(myLibrary[i].info());
         let bookContainerDiv = document.createElement('div');
         bookContainerDiv.className = `bookContainer`;
-        let titleId = myLibrary[i].title;
-        bookContainerDiv.id = titleId.replace(/\s+/g, '-');
+        let bookId = myLibrary[i].bookId;
 
         libraryContainer.appendChild(bookContainerDiv);
 
@@ -115,7 +115,7 @@ function showLibrary() {
         removeImg.src = 'images/Remove.png';
         removeImg.className = 'removeImg';
         removeImg.alt = 'Remove Book';
-        removeImg.id = bookContainerDiv.id;
+        removeImg.id = bookId;
         bookContainerDiv.appendChild(removeImg);
 
         bookCount++;
@@ -137,15 +137,21 @@ Book.prototype.info = function () {
 };
 
 //temp data for testing
-const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false);
-const book2 = new Book('A Game of Thrones', 'George R. R. Martin', '912', true);
+const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false, 123);
+const book2 = new Book(
+    'A Game of Thrones',
+    'George R. R. Martin',
+    '912',
+    true,
+    124
+);
 localStorage.getItem('myLibrary')
     ? console.log(`local storage exists, not loading temp data`)
     : myLibrary.push(book1, book2);
 
 //Saves the book into the library onces added by user.
-function saveBookToLibrary(title, author, pages, read) {
-    let newBook = new Book(title, author, pages, read);
+function saveBookToLibrary(title, author, pages, read, bookId) {
+    let newBook = new Book(title, author, pages, read, bookId);
     myLibrary.push(newBook);
 
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
@@ -163,11 +169,10 @@ function saveBookToLibrary(title, author, pages, read) {
 
 // remove book when x button is clicked, looks for book container with matching
 // id of book title then removes the book from the array
-function removeBook(bookTitle) {
-    document.querySelector(`#${bookTitle}`).remove();
-    bookTitleFind = bookTitle.replace(/[^a-zA-Z0-9 ]/g, ' ');
+function removeBook(bookId) {
+    document.getElementById(`${bookId}`).parentNode.remove();
     myLibrary.splice(
-        myLibrary.findIndex((x) => x.title === bookTitleFind),
+        myLibrary.findIndex((x) => x.bookId === bookId),
         1
     );
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
@@ -188,6 +193,12 @@ function checkValidInput() {
         return;
     } else {
         console.log('booklibrary save to');
-        saveBookToLibrary(title.value, author.value, pages.value, read);
+        saveBookToLibrary(
+            title.value,
+            author.value,
+            pages.value,
+            read,
+            Date.now()
+        );
     }
 }
