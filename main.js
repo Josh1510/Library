@@ -88,10 +88,14 @@ let showLibrary = () => {
 
         let coverDiv = document.createElement('div');
         let coverImg = document.createElement('img');
-        let coverImgFile = `images/${myLibrary[i].title}.jpg`;
-        doesFileExist(coverImgFile)
-            ? (coverImg.src = coverImgFile)
-            : (coverImg.src = `images/Blank.jpg`);
+
+        (async () => {
+            coverImg.src = await getBookImage(
+                myLibrary[i].title,
+                myLibrary[i].author
+            );
+        })();
+
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
         coverDiv.className = 'coverDiv';
@@ -102,6 +106,8 @@ let showLibrary = () => {
         authorDiv.appendChild(author);
         authorDiv.className = 'authorDiv';
         bookContainerDiv.appendChild(authorDiv);
+
+        //console.log(getBookCover(title, author));
 
         let pagesDiv = document.createElement('div');
         let pages = document.createTextNode(myLibrary[i].pages);
@@ -207,3 +213,32 @@ let checkValidInput = () => {
     }
 };
 saveBookBtn.addEventListener('click', checkValidInput);
+
+async function getBookImage(title, author) {
+    //console.log(`log 1: ${coverUrl}`);
+    const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
+    );
+
+    const responseJSON = await response.json();
+    let coverUrl = responseJSON.items[0].volumeInfo.imageLinks.thumbnail;
+    return coverUrl;
+}
+
+// let getBookCoverUrl = (title, author) => {
+//     let coverUrl = (async () => {
+//         await getBookJSON(title, author);
+//     })();
+//     coverUrl.items[0].volumeInfo.imageLinks.thumbnail;
+//     return coverUrl;
+
+//     // let bookCoverUrl = getBookJSON(title, author);
+//     // return bookCoverUrl; //.items[0].volumeInfo.imageLinks.thumbnail;
+// };
+
+// const getBookCover = async (title, author) => {
+//     const result = await getBookCoverUrl(title, author);
+
+//     // do something else here after firstFunction completes
+//     return result;
+// };
