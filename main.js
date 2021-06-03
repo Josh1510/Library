@@ -215,7 +215,6 @@ let checkValidInput = () => {
 saveBookBtn.addEventListener('click', checkValidInput);
 
 async function getBookImage(title, author) {
-    //console.log(`log 1: ${coverUrl}`);
     const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
     );
@@ -225,6 +224,15 @@ async function getBookImage(title, author) {
     return coverUrl;
 }
 
+async function getBookInformation(title, author) {
+    const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
+    );
+
+    const responseJSON = await response.json();
+    let bookInformation = responseJSON.items;
+    return bookInformation;
+}
 // let getBookCoverUrl = (title, author) => {
 //     let coverUrl = (async () => {
 //         await getBookJSON(title, author);
