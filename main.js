@@ -30,7 +30,7 @@ let readLocalStorage = () => {
         saveBookToLibrary(
             myLocalLibrary[i].title,
             myLocalLibrary[i].author,
-            myLocalLibrary[i].pages,
+            //myLocalLibrary[i].pages,
             myLocalLibrary[i].read,
             myLocalLibrary[i].bookId,
             myLocalLibrary[i].bookInformation
@@ -60,14 +60,14 @@ class Book {
     constructor(
         title = 'unknown',
         author = 'unknown',
-        pages = 0,
+        //pages = 0,
         read = false,
         bookId,
         bookInformation
     ) {
         this.title = title;
         this.author = author;
-        this.pages = pages;
+        //this.pages = pages;
         this.read = read;
         this.bookId = bookId;
         this.bookInformation = bookInformation;
@@ -186,7 +186,7 @@ let removeBook = (bookId) => {
 let resetForm = () => {
     form.querySelector('input[name="title"]').value = '';
     form.querySelector('input[name="author"]').value = '';
-    form.querySelector('input[name="pages"]').value = '';
+    //form.querySelector('input[name="pages"]').value = '';
     form.querySelector('input[name="read"]').checked = false;
 
     addBookForm.style.display = 'none';
@@ -197,7 +197,7 @@ let resetForm = () => {
 let checkValidInput = () => {
     let title = form.querySelector('input[name="title"]');
     let author = form.querySelector('input[name="author"]');
-    let pages = form.querySelector('input[name="pages"]');
+    //let pages = form.querySelector('input[name="pages"]');
     let read = form.querySelector('input[name="read"]').checked;
 
     if (title.value == '') {
@@ -210,7 +210,7 @@ let checkValidInput = () => {
             saveBookToLibrary(
                 title.value,
                 author.value,
-                pages.value,
+                //pages.value,
                 read,
                 Date.now(),
                 await getBookInformation(title.value, author.value).then(
