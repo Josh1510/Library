@@ -16,12 +16,7 @@ libraryContainer.addEventListener('click', (event) => {
     }
 });
 
-const addBookForm = document.querySelector('#addBookForm');
-const addBookBtn = document.querySelector('#add-book-btn');
-const closeBookForm = document.querySelector('#close-book-form');
-const saveBookBtn = document.querySelector('#save-book-btn');
-
-let form = document.forms.addBookForm;
+const saveBookBtn = document.getElementById('search-btn');
 
 //read the local storage and import books if they exist
 let readLocalStorage = () => {
@@ -30,7 +25,7 @@ let readLocalStorage = () => {
         saveBookToLibrary(
             myLocalLibrary[i].title,
             myLocalLibrary[i].author,
-            //myLocalLibrary[i].pages,
+            myLocalLibrary[i].pages,
             myLocalLibrary[i].read,
             myLocalLibrary[i].bookId,
             myLocalLibrary[i].bookInformation
@@ -46,28 +41,18 @@ window.addEventListener('load', () => {
         : console.log(`no local storage`);
 });
 
-addBookBtn.addEventListener(
-    'click',
-    () => (addBookForm.style.display = 'block')
-);
-
-closeBookForm.addEventListener(
-    'click',
-    () => (addBookForm.style.display = 'none')
-);
-
 class Book {
     constructor(
         title = 'unknown',
         author = 'unknown',
-        //pages = 0,
+        pages = 0,
         read = false,
         bookId,
         bookInformation
     ) {
         this.title = title;
         this.author = author;
-        //this.pages = pages;
+        this.pages = pages;
         this.read = read;
         this.bookId = bookId;
         this.bookInformation = bookInformation;
@@ -93,12 +78,6 @@ let showLibrary = () => {
         let coverImg = document.createElement('img');
 
         coverImg.src = getBookImage(myLibrary[i]);
-        // (async () => {
-        //     coverImg.src = await getBookImage(
-        //         myLibrary[i].title,
-        //         myLibrary[i].author
-        //     );
-        // })();
 
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
@@ -134,15 +113,6 @@ let showLibrary = () => {
 
         bookCount++;
     }
-};
-
-// check if file exists
-let doesFileExist = (urlToFile) => {
-    var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', urlToFile, false);
-    xhr.send();
-
-    return xhr.status !== 404;
 };
 
 // returns books info
@@ -184,44 +154,33 @@ let removeBook = (bookId) => {
 };
 
 let resetForm = () => {
-    form.querySelector('input[name="title"]').value = '';
-    form.querySelector('input[name="author"]').value = '';
-    //form.querySelector('input[name="pages"]').value = '';
-    form.querySelector('input[name="read"]').checked = false;
-
-    addBookForm.style.display = 'none';
+    document.querySelector('input[name="search"]').value = '';
 };
 
 // TODO
 // Check that the user has entered a valid input
 let checkValidInput = () => {
-    let title = form.querySelector('input[name="title"]');
-    let author = form.querySelector('input[name="author"]');
-    //let pages = form.querySelector('input[name="pages"]');
-    let read = form.querySelector('input[name="read"]').checked;
-
-    if (title.value == '') {
-        title.placeholder = 'Title is required!';
+    let search = document.querySelector('input[name="search"]');
+    if (search.value == '') {
         console.log('missing title');
         return;
     } else {
         console.log('booklibrary save to');
         (async () =>
             saveBookToLibrary(
-                title.value,
-                author.value,
-                //pages.value,
-                read,
+                'title',
+                'author',
+                'pages',
+                false,
                 Date.now(),
-                await getBookInformation(title.value, author.value).then(
-                    (data) => {
-                        return data;
-                    }
-                )
+                await getBookInformation(search.value).then((data) => {
+                    return data;
+                })
             ))();
     }
     resetForm();
 };
+
 saveBookBtn.addEventListener('click', checkValidInput);
 
 let getBookImage = (book) => {
@@ -240,39 +199,12 @@ let getBookPages = (book) => {
     return book.bookInformation[0].volumeInfo.pageCount;
 };
 
-async function getBookInformation(title, author) {
+async function getBookInformation(search) {
     const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
+        `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}`
     );
 
     const bookInformation = await response.json();
-    //let bookInformation = responseJSON.items;
     let bookInformationArray = await bookInformation.items;
     return bookInformationArray;
 }
-
-// unmatched.getData(sFilter).then(response => {
-//     const json = JSON.stringify(response);
-// });
-
-// getBookInformation(title, author).then((bookInformation) => {
-//     bookInformation; // fetched movies
-// });
-
-// let getBookCoverUrl = (title, author) => {
-//     let coverUrl = (async () => {
-//         await getBookJSON(title, author);
-//     })();
-//     coverUrl.items[0].volumeInfo.imageLinks.thumbnail;
-//     return coverUrl;
-
-//     // let bookCoverUrl = getBookJSON(title, author);
-//     // return bookCoverUrl; //.items[0].volumeInfo.imageLinks.thumbnail;
-// };
-
-// const getBookCover = async (title, author) => {
-//     const result = await getBookCoverUrl(title, author);
-
-//     // do something else here after firstFunction completes
-//     return result;
-// };

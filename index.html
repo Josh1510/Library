@@ -14,19 +14,15 @@
     </head>
     <body>
         <div class="search-container">
-            <div class="search-container-contents">
-                <!-- magnify-glass loads magnifyGlass.html using jquery -->
-                <div class="magnify-glass" id="magnify-glass"></div>
-                <div class="search-input">
-                    <input type="text" name="search" id="search" />
-                </div>
-
-                <!-- microphone-logo loads microphoneLogo.html using jquery -->
-                <div class="microphone-logo" id="microphone-logo"></div>
+            <div class="search-input">
+                <input
+                    type="text"
+                    name="search"
+                    id="search"
+                    placeholder="Enter Book title & Author"
+                />
             </div>
-        </div>
-        <div class="search-button-container">
-            <button type="submit" class="search-button">Book Search</button>
+            <button type="submit" id="search-btn">GO</button>
         </div>
 
         <div id="library-container"></div>
