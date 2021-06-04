@@ -32,7 +32,8 @@ let readLocalStorage = () => {
             myLocalLibrary[i].author,
             myLocalLibrary[i].pages,
             myLocalLibrary[i].read,
-            myLocalLibrary[i].bookId
+            myLocalLibrary[i].bookId,
+            myLocalLibrary[i].bookInformation
         );
     }
 };
@@ -61,13 +62,15 @@ class Book {
         author = 'unknown',
         pages = 0,
         read = false,
-        bookId
+        bookId,
+        bookInformation
     ) {
         this.title = title;
         this.author = author;
         this.pages = pages;
         this.read = read;
         this.bookId = bookId;
+        this.bookInformation = bookInformation;
     }
 }
 
@@ -81,7 +84,7 @@ let showLibrary = () => {
         libraryContainer.appendChild(bookContainerDiv);
 
         let titleDiv = document.createElement('div');
-        let title = document.createTextNode(myLibrary[i].title);
+        let title = document.createTextNode(getBookTitle(myLibrary[i]));
         titleDiv.appendChild(title);
         titleDiv.className = 'titleDiv';
         bookContainerDiv.appendChild(titleDiv);
@@ -89,12 +92,13 @@ let showLibrary = () => {
         let coverDiv = document.createElement('div');
         let coverImg = document.createElement('img');
 
-        (async () => {
-            coverImg.src = await getBookImage(
-                myLibrary[i].title,
-                myLibrary[i].author
-            );
-        })();
+        coverImg.src = getBookImage(myLibrary[i]);
+        // (async () => {
+        //     coverImg.src = await getBookImage(
+        //         myLibrary[i].title,
+        //         myLibrary[i].author
+        //     );
+        // })();
 
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
@@ -102,7 +106,7 @@ let showLibrary = () => {
         bookContainerDiv.appendChild(coverDiv);
 
         let authorDiv = document.createElement('div');
-        let author = document.createTextNode(myLibrary[i].author);
+        let author = document.createTextNode(getBookAuthor(myLibrary[i]));
         authorDiv.appendChild(author);
         authorDiv.className = 'authorDiv';
         bookContainerDiv.appendChild(authorDiv);
@@ -131,7 +135,7 @@ let showLibrary = () => {
         bookCount++;
     }
 };
-//testing
+
 // check if file exists
 let doesFileExist = (urlToFile) => {
     var xhr = new XMLHttpRequest();
@@ -146,32 +150,22 @@ Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`;
 };
 
-//temp data for testing
-const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', '295', false, 123);
-const book2 = new Book(
-    'A Game of Thrones',
-    'George R. R. Martin',
-    '912',
-    true,
-    124
-);
-localStorage.getItem('myLibrary')
-    ? console.log(`local storage exists, not loading temp data`)
-    : myLibrary.push(book1, book2);
-
 //Saves the book into the library onces added by user.
-let saveBookToLibrary = (title, author, pages, read, bookId) => {
-    let newBook = new Book(title, author, pages, read, bookId);
+let saveBookToLibrary = (
+    title,
+    author,
+    pages,
+    read,
+    bookId,
+    bookInformation
+) => {
+    let newBook = new Book(title, author, pages, read, bookId, bookInformation);
     myLibrary.push(newBook);
 
+    newBookInformation = newBook.bookInformation;
+    JSON.stringify(newBookInformation);
+
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
-
-    form.querySelector('input[name="title"]').value = '';
-    form.querySelector('input[name="author"]').value = '';
-    form.querySelector('input[name="pages"]').value = '';
-    form.querySelector('input[name="read"]').checked = false;
-
-    addBookForm.style.display = 'none';
 
     //refreshes the library to display the new book
     showLibrary();
@@ -189,6 +183,15 @@ let removeBook = (bookId) => {
     bookCount--;
 };
 
+let resetForm = () => {
+    form.querySelector('input[name="title"]').value = '';
+    form.querySelector('input[name="author"]').value = '';
+    form.querySelector('input[name="pages"]').value = '';
+    form.querySelector('input[name="read"]').checked = false;
+
+    addBookForm.style.display = 'none';
+};
+
 // TODO
 // Check that the user has entered a valid input
 let checkValidInput = () => {
@@ -203,36 +206,55 @@ let checkValidInput = () => {
         return;
     } else {
         console.log('booklibrary save to');
-        saveBookToLibrary(
-            title.value,
-            author.value,
-            pages.value,
-            read,
-            Date.now()
-        );
+        (async () =>
+            saveBookToLibrary(
+                title.value,
+                author.value,
+                pages.value,
+                read,
+                Date.now(),
+                await getBookInformation(title.value, author.value).then(
+                    (data) => {
+                        return data;
+                    }
+                )
+            ))();
     }
+    resetForm();
 };
 saveBookBtn.addEventListener('click', checkValidInput);
 
-async function getBookImage(title, author) {
-    const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
-    );
+let getBookImage = (book) => {
+    return book.bookInformation[0].volumeInfo.imageLinks.thumbnail;
+};
 
-    const responseJSON = await response.json();
-    let coverUrl = responseJSON.items[0].volumeInfo.imageLinks.thumbnail;
-    return coverUrl;
-}
+let getBookTitle = (book) => {
+    return book.bookInformation[0].volumeInfo.title;
+};
+
+let getBookAuthor = (book) => {
+    return book.bookInformation[0].volumeInfo.authors;
+};
 
 async function getBookInformation(title, author) {
     const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${title} ${author}&key=${GOOGLE_BOOKS_API}`
     );
 
-    const responseJSON = await response.json();
-    let bookInformation = responseJSON.items;
-    return bookInformation;
+    const bookInformation = await response.json();
+    //let bookInformation = responseJSON.items;
+    let bookInformationArray = await bookInformation.items;
+    return bookInformationArray;
 }
+
+// unmatched.getData(sFilter).then(response => {
+//     const json = JSON.stringify(response);
+// });
+
+// getBookInformation(title, author).then((bookInformation) => {
+//     bookInformation; // fetched movies
+// });
+
 // let getBookCoverUrl = (title, author) => {
 //     let coverUrl = (async () => {
 //         await getBookJSON(title, author);
