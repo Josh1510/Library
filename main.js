@@ -114,7 +114,7 @@ let showLibrary = () => {
         //console.log(getBookCover(title, author));
 
         let pagesDiv = document.createElement('div');
-        let pages = document.createTextNode(myLibrary[i].pages);
+        let pages = document.createTextNode(getBookPages(myLibrary[i]));
         pagesDiv.appendChild(pages);
         pagesDiv.className = 'pagesDiv';
         bookContainerDiv.appendChild(pagesDiv);
@@ -234,6 +234,10 @@ let getBookTitle = (book) => {
 
 let getBookAuthor = (book) => {
     return book.bookInformation[0].volumeInfo.authors;
+};
+
+let getBookPages = (book) => {
+    return book.bookInformation[0].volumeInfo.pageCount;
 };
 
 async function getBookInformation(title, author) {
