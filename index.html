@@ -28,53 +28,19 @@
         <div id="library-container"></div>
 
         <!-- Form & button to add a book -->
-        <button id="add-book-btn">Add a Book</button>
-        <div class="form-popup" id="addBookForm">
-            <form class="form-container" name="addBookForm">
-                <h1>Add your book!</h1>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
 
-                <label for="title" id="title-input"><b>Title</b></label>
-                <input
-                    type="text"
-                    placeholder="Enter Title"
-                    name="title"
-                    required
-                />
-                <label for="author" id="author-input"><b>Author</b></label>
-                <input
-                    type="text"
-                    placeholder="Enter Author"
-                    name="author"
-                    required
-                />
-                <!-- <label for="pages" id="pages-input"><b>Pages</b></label>
-                <input
-                    type="number"
-                    placeholder="Enter Pages"
-                    name="pages"
-                    required
-                /> -->
-
-                <label for="read" id="read-input"><b>Book read?</b></label>
-                <input type="checkbox" name="read" />
-
-                <button type="button" class="btn" id="save-book-btn">
-                    Save Book
-                </button>
-                <button type="button" class="btn" id="close-book-form">
-                    Close
-                </button>
-            </form>
-            <!-- Modal cover selector -->
-            <div id="myModal" class="modal">
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div id="cover-selector-container"></div>
-                </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
             </div>
         </div>
         <script src="api.js" async></script>
         <script src="main.js" async></script>
+        <script src="modal.js" async></script>
     </body>
 </html>

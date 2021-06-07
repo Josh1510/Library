@@ -132,9 +132,6 @@ let saveBookToLibrary = (
     let newBook = new Book(title, author, pages, read, bookId, bookInformation);
     myLibrary.push(newBook);
 
-    newBookInformation = newBook.bookInformation;
-    JSON.stringify(newBookInformation);
-
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 
     //refreshes the library to display the new book
@@ -201,7 +198,7 @@ let getBookPages = (book) => {
 
 async function getBookInformation(search) {
     const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}&fields=items(volumeInfo(authors,categories,description,imageLinks,pageCount,title))`
+        `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}`
     );
 
     const bookInformation = await response.json();
