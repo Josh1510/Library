@@ -181,7 +181,11 @@ let checkValidInput = () => {
 saveBookBtn.addEventListener('click', checkValidInput);
 
 let getBookImage = (book) => {
-    return book.bookInformation[0].volumeInfo.imageLinks.thumbnail;
+    try {
+        return book.bookInformation[0].volumeInfo.imageLinks.thumbnail;
+    } catch (err) {
+        return 'images/Blank.jpg';
+    }
 };
 
 let getBookTitle = (book) => {
