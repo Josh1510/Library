@@ -1,3 +1,5 @@
+let bookSearchResults = [];
+
 // Get the modal
 var modal = document.getElementById('myModal');
 
@@ -24,8 +26,18 @@ window.onclick = function (event) {
     }
 };
 
-const mySearch = document.querySelector('input');
 const modalContainer = document.getElementById('modal-container');
+
+modalContainer.addEventListener('click', (event) => {
+    const isAdd = event.target.className;
+    if (isAdd === 'addImg') {
+        let bookId = event.target.id;
+        saveBookToLibrary(bookId);
+    }
+    console.log('clicked add');
+});
+
+const mySearch = document.querySelector('input');
 
 const getBookTitleTest = (book) => {
     return book.volumeInfo.title;
@@ -86,6 +98,16 @@ const showSearchResults = (data) => {
         addImg.alt = 'Add Book';
         addImg.id = bookId;
         bookContainerDiv.appendChild(addImg);
+
+        saveBookToSearchResults(
+            titleContent,
+            author.data,
+            pages.data,
+            false,
+            bookId,
+            data[i],
+            i
+        );
     }
 };
 
@@ -113,17 +135,15 @@ let removeResults = () => {
         .forEach((e) => e.parentNode.removeChild(e));
 };
 
-// async function getBookInformation(search) {
-//     const response = await fetch(
-//         `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}`
-//     );
-
-//     const bookInformation = await response.json();
-//     let bookInformationArray = await bookInformation.items;
-//     return bookInformationArray;
-// }
-// let updateText = (e) => {
-//     log.textContent = e.target.value;
-// };
-// const log = document.getElementById('test-text');
-// mySearch.addEventListener('input', updateText);
+let saveBookToSearchResults = (
+    title,
+    author,
+    pages,
+    read,
+    bookId,
+    bookInformation,
+    index
+) => {
+    let newBook = new Book(title, author, pages, read, bookId, bookInformation);
+    bookSearchResults[index] = newBook;
+};

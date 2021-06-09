@@ -69,7 +69,7 @@ let showLibrary = () => {
         libraryContainer.appendChild(bookContainerDiv);
 
         let titleDiv = document.createElement('div');
-        let title = document.createTextNode(getBookTitle(myLibrary[i]));
+        let title = document.createTextNode(myLibrary[i].title);
         titleDiv.appendChild(title);
         titleDiv.className = 'titleDiv';
         bookContainerDiv.appendChild(titleDiv);
@@ -77,7 +77,8 @@ let showLibrary = () => {
         let coverDiv = document.createElement('div');
         let coverImg = document.createElement('img');
 
-        coverImg.src = getBookImage(myLibrary[i]);
+        coverImg.src =
+            myLibrary[i].bookInformation.volumeInfo.imageLinks.thumbnail;
 
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
@@ -85,7 +86,7 @@ let showLibrary = () => {
         bookContainerDiv.appendChild(coverDiv);
 
         let authorDiv = document.createElement('div');
-        let author = document.createTextNode(getBookAuthor(myLibrary[i]));
+        let author = document.createTextNode(myLibrary[i].author);
         authorDiv.appendChild(author);
         authorDiv.className = 'authorDiv';
         bookContainerDiv.appendChild(authorDiv);
@@ -93,7 +94,7 @@ let showLibrary = () => {
         //console.log(getBookCover(title, author));
 
         let pagesDiv = document.createElement('div');
-        let pages = document.createTextNode(getBookPages(myLibrary[i]));
+        let pages = document.createTextNode(myLibrary[i].pages);
         pagesDiv.appendChild(pages);
         pagesDiv.className = 'pagesDiv';
         bookContainerDiv.appendChild(pagesDiv);
@@ -110,8 +111,6 @@ let showLibrary = () => {
         removeImg.alt = 'Remove Book';
         removeImg.id = bookId;
         bookContainerDiv.appendChild(removeImg);
-
-        bookCount++;
     }
 };
 
@@ -121,21 +120,29 @@ Book.prototype.info = function () {
 };
 
 //Saves the book into the library onces added by user.
-let saveBookToLibrary = (
-    title,
-    author,
-    pages,
-    read,
-    bookId,
-    bookInformation
-) => {
-    let newBook = new Book(title, author, pages, read, bookId, bookInformation);
-    myLibrary.push(newBook);
+// let saveBookToLibrary = (
+//     title,
+//     author,
+//     pages,
+//     read,
+//     bookId,
+//     bookInformation
+// ) => {
+//     let newBook = new Book(title, author, pages, read, bookId, bookInformation);
+//     myLibrary.push(newBook);
 
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+//     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 
-    //refreshes the library to display the new book
+//     //refreshes the library to display the new book
+//     showLibrary();
+// };
+
+let saveBookToLibrary = (bookId) => {
+    bookIndex = bookSearchResults.findIndex((x) => x.bookId === bookId);
+    bookToAdd = bookSearchResults[bookIndex];
+    myLibrary.push(bookToAdd);
     showLibrary();
+    bookCount++;
 };
 
 // remove book when x button is clicked, looks for book container with matching
