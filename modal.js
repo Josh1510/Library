@@ -31,59 +31,61 @@ const getBookTitleTest = (book) => {
     return book.volumeInfo.title;
 };
 
-const showSearchResults = async (data) => {
+const showSearchResults = (data) => {
     console.log(data);
-    //console.log(data[0].volumeInfo.title);
+    removeResults();
+    console.log(`search term: ${mySearch.value}`);
     for (i = 0; i < data.length; i++) {
         console.log(data[i].volumeInfo.title);
+
         let bookContainerDiv = document.createElement('div');
         bookContainerDiv.className = `bookContainer`;
-        //     let bookId = data[i].bookId;
-
+        let bookId = Date.now().toString() + i; //prevents duplicate strings when data is returned at the same time
         modalContainer.appendChild(bookContainerDiv);
 
         let titleDiv = document.createElement('div');
         //let title = data[0].volumeInfo.title
-        let titleContent = await data[i].volumeInfo.title;
+        //let titleContent = data[i].volumeInfo.title;
+        let titleContent = getBookTitle(data[i]);
         let title = document.createTextNode(titleContent);
         titleDiv.appendChild(title);
         //     titleDiv.className = 'titleDiv';
-        //     bookContainerDiv.appendChild(titleDiv);
+        bookContainerDiv.appendChild(titleDiv);
 
-        //     let coverDiv = document.createElement('div');
-        //     let coverImg = document.createElement('img');
+        let coverDiv = document.createElement('div');
+        let coverImg = document.createElement('img');
 
-        //     coverImg.src = getBookImage(data[i]);
+        coverImg.src = getBookImage(data[i]);
 
-        //     coverImg.className = 'coverImg';
-        //     coverDiv.appendChild(coverImg);
-        //     coverDiv.className = 'coverDiv';
-        //     bookContainerDiv.appendChild(coverDiv);
+        coverImg.className = 'coverImg';
+        coverDiv.appendChild(coverImg);
+        coverDiv.className = 'coverDiv';
+        bookContainerDiv.appendChild(coverDiv);
 
-        //     let authorDiv = document.createElement('div');
-        //     let author = document.createTextNode(getBookAuthor(data[i]));
-        //     authorDiv.appendChild(author);
-        //     authorDiv.className = 'authorDiv';
-        //     bookContainerDiv.appendChild(authorDiv);
+        let authorDiv = document.createElement('div');
+        let author = document.createTextNode(getBookAuthor(data[i]));
+        authorDiv.appendChild(author);
+        authorDiv.className = 'authorDiv';
+        bookContainerDiv.appendChild(authorDiv);
 
-        //     let pagesDiv = document.createElement('div');
-        //     let pages = document.createTextNode(getBookPages(data[i]));
-        //     pagesDiv.appendChild(pages);
-        //     pagesDiv.className = 'pagesDiv';
-        //     bookContainerDiv.appendChild(pagesDiv);
+        let pagesDiv = document.createElement('div');
+        let pages = document.createTextNode(getBookPages(data[i]));
+        pagesDiv.appendChild(pages);
+        pagesDiv.className = 'pagesDiv';
+        bookContainerDiv.appendChild(pagesDiv);
 
-        //     let readDiv = document.createElement('div');
-        //     let read = document.createTextNode(data[i].read);
-        //     readDiv.appendChild(read);
-        //     readDiv.className = 'readDiv';
-        //     bookContainerDiv.appendChild(readDiv);
+        let readDiv = document.createElement('div');
+        let read = document.createTextNode(data[i].read);
+        readDiv.appendChild(read);
+        readDiv.className = 'readDiv';
+        bookContainerDiv.appendChild(readDiv);
 
-        //     let removeImg = document.createElement('img');
-        //     removeImg.src = 'images/Remove.png';
-        //     removeImg.className = 'removeImg';
-        //     removeImg.alt = 'Remove Book';
-        //     removeImg.id = bookId;
-        //     bookContainerDiv.appendChild(removeImg);
+        let addImg = document.createElement('img');
+        addImg.src = 'images/addIcon.jpg';
+        addImg.className = 'addImg';
+        addImg.alt = 'Add Book';
+        addImg.id = bookId;
+        bookContainerDiv.appendChild(addImg);
     }
 };
 
@@ -92,7 +94,7 @@ async function mySearchDisplay(e) {
         return;
     } else {
         (async () =>
-            await showSearchResults(
+            showSearchResults(
                 await getBookInformation(e.target.value).then((data) => {
                     return data;
                 })
@@ -101,16 +103,25 @@ async function mySearchDisplay(e) {
 }
 
 mySearch.addEventListener('input', mySearchDisplay);
+mySearch.addEventListener('focus', (event) => {
+    modal.style.display = 'block';
+});
 
-async function getBookInformation(search) {
-    const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}`
-    );
+let removeResults = () => {
+    document
+        .querySelectorAll('.bookContainer')
+        .forEach((e) => e.parentNode.removeChild(e));
+};
 
-    const bookInformation = await response.json();
-    let bookInformationArray = await bookInformation.items;
-    return bookInformationArray;
-}
+// async function getBookInformation(search) {
+//     const response = await fetch(
+//         `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${GOOGLE_BOOKS_API}`
+//     );
+
+//     const bookInformation = await response.json();
+//     let bookInformationArray = await bookInformation.items;
+//     return bookInformationArray;
+// }
 // let updateText = (e) => {
 //     log.textContent = e.target.value;
 // };

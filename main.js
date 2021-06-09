@@ -182,22 +182,22 @@ saveBookBtn.addEventListener('click', checkValidInput);
 
 let getBookImage = (book) => {
     try {
-        return book.bookInformation[0].volumeInfo.imageLinks.thumbnail;
+        return book.volumeInfo.imageLinks.thumbnail;
     } catch (err) {
         return 'images/Blank.jpg';
     }
 };
 
 let getBookTitle = (book) => {
-    return book.bookInformation[0].volumeInfo.title;
+    return book.volumeInfo.title;
 };
 
 let getBookAuthor = (book) => {
-    return book.bookInformation[0].volumeInfo.authors;
+    return book.volumeInfo.authors;
 };
 
 let getBookPages = (book) => {
-    return book.bookInformation[0].volumeInfo.pageCount;
+    return book.volumeInfo.pageCount;
 };
 
 async function getBookInformation(search) {
