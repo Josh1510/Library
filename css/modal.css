@@ -1,0 +1,93 @@
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 45px; /* Location of the box */
+    left: 0;
+    top: 0;
+    /* width: 100%; Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    width: 600px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+/* Modal Content */
+#modal-container {
+    border-style: solid;
+    border-width: 0px 1px 1px;
+    border-color: #dfe1e5;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #fefefe;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalCoverDiv {
+    max-height: 65px;
+    max-width: 50px;
+}
+
+img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.modalBookContainer {
+    height: 75px;
+    display: flex;
+}
+.modalBookContainer:hover,
+.modalBookContainer:focus {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modalBookInformationContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 15px;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.modalCoverDiv {
+    max-height: 65px;
+    max-width: 50px;
+}
+.modalTitleDiv {
+}
+.modalAuthorDiv {
+}
+
+.modalPagesDiv {
+}
+
+.addImg {
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}

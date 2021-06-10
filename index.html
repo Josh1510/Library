@@ -9,50 +9,40 @@
         <link rel="stylesheet" href="css/styles.css" />
         <link rel="stylesheet" href="css/addABook.css" />
         <link rel="stylesheet" href="css/libraryContainer.css" />
+        <link rel="stylesheet" href="css/modal.css" />
+        <link rel="stylesheet" href="css/searchBox.css" />
     </head>
     <body>
+        <div class="search-modal-container">
+            <div class="search-container">
+                <div class="search-input">
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        placeholder="Enter Book title & Author"
+                    />
+                </div>
+                <button type="submit" id="search-btn">GO</button>
+            </div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div id="modal-container">
+                    <span class="close">&times;</span>
+                    <!-- <p id="test-text">Some text in the Modal..</p> -->
+                </div>
+            </div>
+        </div>
+
         <div id="library-container"></div>
 
         <!-- Form & button to add a book -->
-        <button id="add-book-btn">Add a Book</button>
-        <div class="form-popup" id="addBookForm">
-            <form class="form-container" name="addBookForm">
-                <h1>Add your book!</h1>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
 
-                <label for="title" id="title-input"><b>Title</b></label>
-                <input
-                    type="text"
-                    placeholder="Enter Title"
-                    name="title"
-                    required
-                />
-                <label for="author" id="author-input"><b>Author</b></label>
-                <input
-                    type="text"
-                    placeholder="Enter Author"
-                    name="author"
-                    required
-                />
-                <label for="pages" id="pages-input"><b>Pages</b></label>
-                <input
-                    type="number"
-                    placeholder="Enter Pages"
-                    name="pages"
-                    required
-                />
-
-                <label for="read" id="read-input"><b>Book read?</b></label>
-                <input type="checkbox" name="read" />
-
-                <button type="button" class="btn" id="save-book-btn">
-                    Save Book
-                </button>
-                <button type="button" class="btn" id="close-book-form">
-                    Close
-                </button>
-            </form>
-        </div>
         <script src="api.js" async></script>
         <script src="main.js" async></script>
+        <script src="modal.js" async></script>
     </body>
 </html>
