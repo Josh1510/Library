@@ -13,16 +13,26 @@
         <link rel="stylesheet" href="css/searchBox.css" />
     </head>
     <body>
-        <div class="search-container">
-            <div class="search-input">
-                <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    placeholder="Enter Book title & Author"
-                />
+        <div class="search-modal-container">
+            <div class="search-container">
+                <div class="search-input">
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        placeholder="Enter Book title & Author"
+                    />
+                </div>
+                <button type="submit" id="search-btn">GO</button>
             </div>
-            <button type="submit" id="search-btn">GO</button>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div id="modal-container">
+                    <span class="close">&times;</span>
+                    <!-- <p id="test-text">Some text in the Modal..</p> -->
+                </div>
+            </div>
         </div>
 
         <div id="library-container"></div>
@@ -31,14 +41,6 @@
         <!-- Trigger/Open The Modal -->
         <button id="myBtn">Open Modal</button>
 
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div id="modal-container">
-                <span class="close">&times;</span>
-                <!-- <p id="test-text">Some text in the Modal..</p> -->
-            </div>
-        </div>
         <script src="api.js" async></script>
         <script src="main.js" async></script>
         <script src="modal.js" async></script>

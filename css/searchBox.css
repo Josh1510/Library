@@ -1,14 +1,23 @@
+.search-modal-container {
+    width: 600px;
+    margin: auto;
+}
+
 .search-container {
     display: flex;
     height: 39px;
-    max-width: 458px;
+    width: 100%;
     border-style: solid;
-    border: 1px solid #dfe1e5;
+    border-width: 1px;
+    border-color: #dfe1e5;
     border-radius: 24px;
     margin: 0 auto;
     padding: 0px 10px 0px 17px;
     position: relative;
     align-items: baseline;
+}
+.remove-lower-radius {
+    border-radius: 20px 20px 0px 0px;
 }
 
 .search-container:focus-within {
@@ -20,7 +29,7 @@
 }
 
 #search-input {
-    flex-grow: 1;
+    /* flex-grow: 1; */
     background-color: red;
 }
 textarea:focus,

@@ -1,5 +1,7 @@
 let bookSearchResults = [];
 
+let searchContainer = document.querySelector('.search-container');
+
 // Get the modal
 var modal = document.getElementById('myModal');
 
@@ -17,12 +19,14 @@ btn.onclick = function () {
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
     modal.style.display = 'none';
+    searchContainer.classList.remove('remove-lower-radius');
 };
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = 'none';
+        searchContainer.classList.remove('remove-lower-radius');
     }
 };
 
@@ -51,18 +55,9 @@ const showSearchResults = (data) => {
         console.log(data[i].volumeInfo.title);
 
         let bookContainerDiv = document.createElement('div');
-        bookContainerDiv.className = `bookContainer`;
-        let bookId = Date.now().toString() + i; //prevents duplicate strings when data is returned at the same time
+        bookContainerDiv.className = `modalBookContainer`;
+        let bookId = Date.now().toString() + i; //prevents duplicate ID's when data is returned at the same time
         modalContainer.appendChild(bookContainerDiv);
-
-        let titleDiv = document.createElement('div');
-        //let title = data[0].volumeInfo.title
-        //let titleContent = data[i].volumeInfo.title;
-        let titleContent = getBookTitle(data[i]);
-        let title = document.createTextNode(titleContent);
-        titleDiv.appendChild(title);
-        //     titleDiv.className = 'titleDiv';
-        bookContainerDiv.appendChild(titleDiv);
 
         let coverDiv = document.createElement('div');
         let coverImg = document.createElement('img');
@@ -71,26 +66,31 @@ const showSearchResults = (data) => {
 
         coverImg.className = 'coverImg';
         coverDiv.appendChild(coverImg);
-        coverDiv.className = 'coverDiv';
+        coverDiv.className = 'modalCoverDiv';
         bookContainerDiv.appendChild(coverDiv);
+
+        let bookInfoContainerDiv = document.createElement('div');
+        bookInfoContainerDiv.className = 'modalBookInformationContainer';
+        bookContainerDiv.appendChild(bookInfoContainerDiv);
+
+        let titleDiv = document.createElement('div');
+        titleDiv.className = 'modalTitleDiv';
+        let titleContent = getBookTitle(data[i]);
+        let title = document.createTextNode(titleContent);
+        titleDiv.appendChild(title);
+        bookInfoContainerDiv.appendChild(titleDiv);
 
         let authorDiv = document.createElement('div');
         let author = document.createTextNode(getBookAuthor(data[i]));
         authorDiv.appendChild(author);
-        authorDiv.className = 'authorDiv';
-        bookContainerDiv.appendChild(authorDiv);
+        authorDiv.className = 'modalAuthorDiv';
+        bookInfoContainerDiv.appendChild(authorDiv);
 
         let pagesDiv = document.createElement('div');
         let pages = document.createTextNode(getBookPages(data[i]));
         pagesDiv.appendChild(pages);
-        pagesDiv.className = 'pagesDiv';
-        bookContainerDiv.appendChild(pagesDiv);
-
-        let readDiv = document.createElement('div');
-        let read = document.createTextNode(data[i].read);
-        readDiv.appendChild(read);
-        readDiv.className = 'readDiv';
-        bookContainerDiv.appendChild(readDiv);
+        pagesDiv.className = 'modalPagesDiv';
+        bookInfoContainerDiv.appendChild(pagesDiv);
 
         let addImg = document.createElement('img');
         addImg.src = 'images/addIcon.jpg';
@@ -127,11 +127,12 @@ async function mySearchDisplay(e) {
 mySearch.addEventListener('input', mySearchDisplay);
 mySearch.addEventListener('focus', (event) => {
     modal.style.display = 'block';
+    searchContainer.classList.add('remove-lower-radius');
 });
 
 let removeResults = () => {
     document
-        .querySelectorAll('.bookContainer')
+        .querySelectorAll('.modalBookContainer')
         .forEach((e) => e.parentNode.removeChild(e));
 };
 
