@@ -64,7 +64,7 @@ const showSearchResults = (data) => {
 
         coverImg.src = getBookImage(data[i]);
 
-        coverImg.className = 'coverImg';
+        coverImg.className = 'modalCoverImg';
         coverDiv.appendChild(coverImg);
         coverDiv.className = 'modalCoverDiv';
         bookContainerDiv.appendChild(coverDiv);
