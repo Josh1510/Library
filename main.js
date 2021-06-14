@@ -15,8 +15,6 @@ libraryContainer.addEventListener("click", (event) => {
   }
 });
 
-const saveBookBtn = document.getElementById("search-btn");
-
 //read the local storage and import books if they exist
 let readLocalStorage = () => {
   myLocalLibrary = JSON.parse(localStorage.getItem("myLibrary"));
@@ -201,8 +199,6 @@ let checkValidInput = () => {
   }
   resetForm();
 };
-
-saveBookBtn.addEventListener("click", checkValidInput);
 
 let getBookImage = (book) => {
   try {
