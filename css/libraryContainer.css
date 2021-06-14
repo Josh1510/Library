@@ -3,21 +3,21 @@
 - book style */
 
 #library-container {
-    border: var(--border);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  border: var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .bookContainer {
-    border: var(--border);
-    padding: 15px;
-    max-width: var(--bookWidth);
+  border: var(--border);
+  padding: 15px;
+  max-width: var(--bookWidth);
 }
 
 .bookContainer::after {
-    content: '';
-    flex: auto;
+  content: "";
+  flex: auto;
 }
 
 /* .titleDiv,
@@ -27,19 +27,28 @@
 .readDiv {
     max-width: var(--bookWidth);
 } */
-.titleDiv,
+.titleDiv {
+  height: 55px;
+}
+
 .authorDiv {
-    min-height: 36px;
+  height: 36px;
+  overflow: hidden;
+}
+
+.coverDiv {
+  max-width: var(--bookWidth);
+  height: 192px;
 }
 
 .coverImg {
-    /* height: 196px;
+  /* height: 196px;
     width: 128px; */
-    height: auto;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .removeImg {
-    height: 15px;
-    width: 15px;
+  height: 15px;
+  width: 15px;
 }

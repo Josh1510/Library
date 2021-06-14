@@ -102,10 +102,21 @@ let showLibrary = () => {
     bookContainerDiv.appendChild(pagesDiv);
 
     let readDiv = document.createElement("div");
-    let read = document.createTextNode(element.read);
+
+    let read = document.createTextNode(element.read ? "Book read" : "Not read");
     readDiv.appendChild(read);
     readDiv.className = "readDiv";
     bookContainerDiv.appendChild(readDiv);
+
+    let sliderLabel = document.createElement("label");
+    sliderLabel.className = "switch";
+    let sliderInput = document.createElement("input");
+    sliderInput.type = "checkbox";
+    let sliderSpan = document.createElement("span");
+    sliderSpan.className = "slider";
+    sliderLabel.appendChild(sliderInput);
+    sliderLabel.appendChild(sliderSpan);
+    bookContainerDiv.appendChild(sliderLabel);
 
     let removeImg = document.createElement("img");
     removeImg.src = "images/Remove.png";
