@@ -16,8 +16,11 @@ libraryContainer.addEventListener('click', (event) => {
 
     if (clickedAction === 'slider') {
         let bookId = event.target.id;
-        console.log(myLibrary.findIndex((x) => x.bookId === bookId));
-
+        let libraryIndex = myLibrary.findIndex((x) => x.bookId === bookId);
+        console.log(`status was ${myLibrary[libraryIndex].read}`);
+        myLibrary[libraryIndex].read = !myLibrary[libraryIndex].read;
+        console.log(`status is now ${myLibrary[libraryIndex].read}`);
+        showLibrary();
         //FINISH
     }
 });
@@ -65,6 +68,9 @@ class Book {
 }
 let count = 0;
 let showLibrary = () => {
+    while (libraryContainer.firstChild) {
+        libraryContainer.removeChild(libraryContainer.lastChild);
+    }
     myLibrary.forEach((element) => {
         console.log(`test, count: ${count}, elemnt ${element.title}`);
         console.log(`${element.value}`);
@@ -98,10 +104,8 @@ let showLibrary = () => {
         authorDiv.className = 'authorDiv';
         bookContainerDiv.appendChild(authorDiv);
 
-        //console.log(getBookCover(title, author));
-
         let pagesDiv = document.createElement('div');
-        let pages = document.createTextNode(element.pages);
+        let pages = document.createTextNode(`${element.pages} Pages`);
         pagesDiv.appendChild(pages);
         pagesDiv.className = 'pagesDiv';
         bookContainerDiv.appendChild(pagesDiv);
@@ -120,7 +124,9 @@ let showLibrary = () => {
 
         let sliderInput = document.createElement('input');
         sliderInput.type = 'checkbox';
-
+        element.read
+            ? (sliderInput.checked = true)
+            : (sliderInput.checked = false);
         let sliderSpan = document.createElement('span');
         sliderSpan.className = 'slider';
         sliderSpan.id = bookId;
@@ -135,6 +141,7 @@ let showLibrary = () => {
         removeImg.id = bookId;
         bookContainerDiv.appendChild(removeImg);
     });
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 };
 
 // returns books info
@@ -154,7 +161,7 @@ let restoreBookToLibrary = (
     let newBook = new Book(title, author, pages, read, bookId, bookInformation);
     myLibrary.push(newBook);
 
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    // localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 
     //refreshes the library to display the new book
     // showLibrary();
@@ -164,11 +171,10 @@ let saveBookToLibrary = (bookId) => {
     bookIndex = bookSearchResults.findIndex((x) => x.bookId === bookId);
     bookToAdd = bookSearchResults[bookIndex];
     myLibrary.push(bookToAdd);
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 
-    while (libraryContainer.firstChild) {
-        libraryContainer.removeChild(libraryContainer.lastChild);
-    }
+    // while (libraryContainer.firstChild) {
+    //     libraryContainer.removeChild(libraryContainer.lastChild);
+    // }
 
     showLibrary();
 };
@@ -176,7 +182,7 @@ let saveBookToLibrary = (bookId) => {
 // remove book when x button is clicked, looks for book container with matching
 // id of book title then removes the book from the array
 let removeBook = (bookId) => {
-    document.getElementById(`${bookId}`).parentNode.remove();
+    document.getElementById(`${bookId}`).parentNode.parentNode.remove();
     myLibrary.splice(
         myLibrary.findIndex((x) => x.bookId === bookId),
         1

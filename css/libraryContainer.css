@@ -18,7 +18,6 @@
 #library-container::after {
     content: '';
     flex: auto;
-    width: var(--bookWidth);
 }
 
 .bookContainer {

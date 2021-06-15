@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="css/modal.css" />
         <link rel="stylesheet" href="css/searchBox.css" />
         <link rel="stylesheet" href="css/slider.css" />
+        <link rel="stylesheet" href="css/moreInfoModal.css" />
     </head>
     <body>
         <div class="search-modal-container">
@@ -26,7 +27,7 @@
                 </div>
                 <!-- <button type="submit" id="search-btn">GO</button> -->
             </div>
-            <!-- The Modal -->
+            <!-- The modal for search -->
             <div id="myModal" class="modal">
                 <!-- Modal content -->
                 <div id="modal-container">
@@ -35,10 +36,16 @@
                 </div>
             </div>
         </div>
+        <div id="more-info-modal">
+            <div id="more-info-container">
+                <span class="close">&times;</span>
+            </div>
+        </div>
 
         <div id="library-container"></div>
 
         <script src="main.js" async></script>
         <script src="modal.js" async></script>
+        <script src="moreInfoModal.js" async></script>
     </body>
 </html>
