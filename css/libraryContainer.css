@@ -3,21 +3,28 @@
 - book style */
 
 #library-container {
-  border: var(--border);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+    position: fixed;
+    border: var(--border);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    max-width: 850px;
+    min-width: 600px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#library-container::after {
+    content: '';
+    flex: auto;
+    width: var(--bookWidth);
 }
 
 .bookContainer {
-  border: var(--border);
-  padding: 15px;
-  max-width: var(--bookWidth);
-}
-
-.bookContainer::after {
-  content: "";
-  flex: auto;
+    border: var(--border);
+    padding: 15px;
+    max-width: var(--bookWidth);
 }
 
 /* .titleDiv,
@@ -28,27 +35,27 @@
     max-width: var(--bookWidth);
 } */
 .titleDiv {
-  height: 55px;
+    height: 55px;
 }
 
 .authorDiv {
-  height: 36px;
-  overflow: hidden;
+    height: 36px;
+    overflow: hidden;
 }
 
 .coverDiv {
-  max-width: var(--bookWidth);
-  height: 192px;
+    max-width: var(--bookWidth);
+    height: 192px;
 }
 
 .coverImg {
-  /* height: 196px;
+    /* height: 196px;
     width: 128px; */
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .removeImg {
-  height: 15px;
-  width: 15px;
+    height: 15px;
+    width: 15px;
 }

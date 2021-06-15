@@ -26,6 +26,7 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    box-shadow: 1px 1px 6px 1px #dcdcdc;
 }
 
 /* The Close Button */
